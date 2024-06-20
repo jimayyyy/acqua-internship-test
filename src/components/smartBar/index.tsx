@@ -125,6 +125,13 @@ export default function SmartBar({
   };
 
   const Rename = (name: string, replaceName: string) => {
+    if (
+      hashListItems['doneItems'].list.includes(replaceName) ||
+      hashListItems['todoItems'].list.includes(replaceName)
+    ) {
+      setError(true);
+      return;
+    }
     const listToRename = hashListItems['doneItems'].list.includes(name)
       ? 'doneItems'
       : 'todoItems';
@@ -155,6 +162,7 @@ export default function SmartBar({
   const handleSend = async () => {
     if (value === '') return;
     const result = await smartBarAI(value);
+    // const result = value;
     const instruction = result?.split(' ');
     if (
       instruction &&
